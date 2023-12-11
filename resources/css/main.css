@@ -1,0 +1,12 @@
+.landing-bg{
+    background-image: url("../../public/assets/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    min-height: 100vh;
+}
+.logo{
+    height: 5rem;
+    width: 5rem;
+}
