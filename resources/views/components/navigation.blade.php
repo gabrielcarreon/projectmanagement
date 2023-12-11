@@ -1,4 +1,4 @@
-<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark " style="width: 280px; min-height: 100vh">
+<div class="flex-column d-none d-md-flex flex-shrink-0 p-3 text-white bg-dark " style="width: 280px; min-height: 100vh">
     <p href="/" class="mt-4 d-flex justify-content-center text-center d-flex align-items-center mb-3 mb-md-0 text-white text-decoration-none">
         <img src="{{asset('assets/logo.png')}}" alt="" style="width: 2rem;">&nbsp;
         <span class="fs-4 text-end">Barangay 660-A</span>
@@ -7,7 +7,7 @@
     <hr>
     @php
     $currentRoute = isset(explode('/', url()->current())[4]) ? explode('/', url()->current())[4] : 'login';
-     $src = Auth::user()->image == "" ? asset('assets/unset.webp') : asset('/uploads/'.Auth::user()->image);
+    $src = Auth::user()->image == "" ? asset('assets/unset.webp') : asset('/uploads/'.Auth::user()->image);
     @endphp
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">

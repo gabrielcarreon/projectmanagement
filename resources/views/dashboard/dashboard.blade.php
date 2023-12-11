@@ -1,8 +1,11 @@
 @extends('layouts.index')
+@section('content')
+
 <div class="d-flex">
     @include('components.navigation')
     <div class="container">
-        <div class="row mt-5">
+        @include('components.navbar')
+        <div class="row mt-0 mt-md-5">
             <div class="col-12 col-lg-6">
                 <a href="{{route('events')}}" class="text-decoration-none card rounded-lg p-4 stripe-box-shadow" style="min-height: 25vh; border-radius: 36px;">
                     <h1>Events</h1>
@@ -31,4 +34,4 @@
         </div>
     </div>
 </div>
-
+@endsection

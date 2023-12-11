@@ -1,8 +1,10 @@
 @extends('layouts.index')
+@section('content')
 <div class="d-flex">
 @include('components.navigation')
     <div class="container">
-        <div class="row mt-5">
+        @include('components.navbar')
+        <div class="row mt-0 mt-md-5">
             <div class="col-12">
                 <div class="stripe-box-shadow p-4 rounded-5">
                     <table class="table table-bordered">
@@ -46,5 +48,4 @@
         </div>
     </div>
 </div>
-
-
+@endsection

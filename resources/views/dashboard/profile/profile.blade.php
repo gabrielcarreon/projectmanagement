@@ -1,4 +1,6 @@
 @extends('layouts.index')
+@section('content')
+
 <div class="d-flex">
     @php
         $months = [];
@@ -23,10 +25,10 @@
         $src = Auth::user()->image == "" ? asset('assets/unset.webp') : asset('/uploads/'.Auth::user()->image);
     @endphp
 @include('components.navigation')
-
-    <div class="container">
-        <div class="row mt-2">
-            <div class="col-12 mt-5">
+    <div class="container-fluid">
+        @include('components.navbar')
+        <div class="row mt-0 mt-md-2">
+            <div class="col-12">
                 <div class="card stripe-box-shadow p-4">
                     <form action="{{route('profile.update')}}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -39,7 +41,7 @@
                     </div>
                     <div class="container">
                         <div class="row justify-content-center">
-                            <div class="col-8">
+                            <div class="col-12 col-md-8">
                                 <x-forms.input
                                     type="text"
                                     value="{{Auth::user()->fname}}"
@@ -157,3 +159,4 @@
         </div>
     </div>
 </div>
+@endsection
