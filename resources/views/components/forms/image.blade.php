@@ -1,16 +1,18 @@
 <div class="d-flex justify-content-center my-3">
     <div class="avatar-upload">
-        <div class="avatar-edit">
-            <input name="{{$id}}" type='file' id="{{$id}}" accept="image/*"/>
-            <label for="{{$id}}"></label>
-        </div>
+        @if(!$disabled)
+            <div class="avatar-edit">
+                <input name="{{$id}}" type='file' id="{{$id}}" accept="image/*"/>
+                <label for="{{$id}}"></label>
+            </div>
+        @endif
         <div class="avatar-preview  d-flex justify-content-center">
             <div id="imagePreview-{{$id}}"
-                 @if($src == '')
-                 style="background-image: url('{{asset('assets/unset.webp')}}');">
-                 @else
-                 style="background-image: url('{{asset($src)}}');">
-                 @endif
+                 @if($src == '' || $src == 'uploads/' || $src == 'assets/')
+                     style="background-image: url('{{asset('assets/unset.webp')}}');">
+                @else
+                    style="background-image: url('{{asset($src)}}');">
+                @endif
             </div>
         </div>
     </div>
@@ -77,21 +79,23 @@
         }
     }
 </style>
-<script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#imagePreview-{{$id}}').css('background-image', 'url(' + e.target.result + ')');
-                $('#imagePreview-{{$id}}').hide();
-                $('#imagePreview-{{$id}}').fadeIn(650);
+@if(!$disabled)
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imagePreview-{{$id}}').css('background-image', 'url(' + e.target.result + ')');
+                    $('#imagePreview-{{$id}}').hide();
+                    $('#imagePreview-{{$id}}').fadeIn(650);
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-            reader.readAsDataURL(input.files[0]);
         }
-    }
 
-    $("#{{$id}}").change(function () {
-        readURL(this);
-    });
+        $("#{{$id}}").change(function () {
+            readURL(this);
+        });
 
-</script>
+    </script>
+@endif

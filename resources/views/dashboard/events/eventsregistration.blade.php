@@ -1,15 +1,15 @@
 @extends('layouts.index')
 @section('content')
     <div class="d-flex">
-        <link href="https://cdn.datatables.net/v/dt/dt-1.13.8/datatables.min.css" rel="stylesheet">
+        <link href="https://cdn.datatables.net/v/bs5/dt-1.13.8/r-2.5.0/sc-2.3.0/datatables.min.css" rel="stylesheet">
 
-        <script src="https://cdn.datatables.net/v/dt/dt-1.13.8/datatables.min.js"></script>
+        <script src="https://cdn.datatables.net/v/bs5/dt-1.13.8/r-2.5.0/sc-2.3.0/datatables.min.js"></script>
         @include('components.navigation')
         <div class="container">
             @include('components.navbar')
             <div class="row">
                 <div class="col-12">
-                    <h1 class="fw-bold mt-2">Residents</h1>
+                    <h1 class="fw-bold mt-2">Registration List</h1>
                     <hr>
                     <div class="p-4 rounded-5">
                         <table class="table table-bordered" id="residentsTable">
@@ -23,8 +23,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(count($users) > 0)
-                                @foreach($users as $user)
+                            @if(count($registration) > 0)
+                                @foreach($registration as $user)
                                     <tr>
                                         <td scope="col" class="text-center">{{$user->lname}}
                                             , {{$user->fname}} {{$user->mname}}</td>

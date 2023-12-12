@@ -4,7 +4,7 @@
 <div class="landing-bg pt-5">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-10 col-md-8 col-lg-6">
+            <div class="col-12 col-md-8 col-lg-6">
                 <div class="card p-4 mx-4" style="max-width: 50rem;">
                     <div class="d-flex pt-5 pb-4 d-flex justify-content-center">
                         <img class="logo" src="{{asset('assets/logo.png')}}" alt="">

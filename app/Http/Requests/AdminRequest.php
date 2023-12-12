@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
-class EventRequest extends FormRequest
+class AdminRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +24,7 @@ class EventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "eventName" => ['required', 'max:255', 'string'],
-            "description" => ['required', 'max:255', 'string'],
-            "location" => ['required', 'max:255', 'string'],
-            "startDate" => ['required', 'string', 'max:255'],
-            "endDate" => ['required', 'string', 'max:255'],
-            "eventStatus" => ["string", "max:1"]
-//            "eventImage" => ['required', 'image', 'size:5048']
+            //
         ];
     }
 }

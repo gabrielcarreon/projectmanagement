@@ -6,6 +6,7 @@
             @include('components.navbar')
             @php
             $status = [
+                ['name' => '', 'label' => 'All'],
                 ['name' => 'scheduled', 'label' => 'Scheduled'],
                 ['name' => 'on-going', 'label' => 'On-Going'],
                 ['name' => 'done', 'label' => 'Done'],
@@ -35,9 +36,11 @@
                 <hr>
                 <div class="col-12 d-flex justify-content-end">
                     <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#filterModal">Filters</button>
+                    @if(Auth::user()->user_access == 'admin')
                     <button style="width: fit-content" class="btn btn-success" data-bs-toggle="modal"
                             data-bs-target="#addEventModal">Add Event
                     </button>
+                    @endif
                 </div>
                 <div class="col-12">
                     <div class="container">
@@ -46,16 +49,28 @@
                                 @foreach($events as $event)
                                     <div class="mt-3 col-12 col-mg-6 col-lg-3 d-flex justify-content-center">
                                         <div class="card stripe-box-shadow" style="width: 18rem;">
-                                            <div class="overflow-hidden" style="max-height: 200px;">
-                                                <img src="{{asset("uploads/$event->image")}}" class="card-img-top" alt="...">
+                                            <div class="overflow-hidden" style="max-height: 200px; min-height: 200px;">
+                                                <img style="height: 200px; background-position: center; background-size: cover; object-fit: cover" src="{{is_null($event->image) ? asset('assets/unset.webp') : asset("uploads/$event->image")}}" class="card-img-top" alt="...">
                                             </div>
                                             <div class="card-body">
-                                                <h5 class="card-title">{{$event->event_name}}</h5>
-                                                <p class="card-text-custom card-text">
+                                                <h5 class="card-title mb-0">{{$event->event_name}}</h5>
+                                                <p class="mb-0">Status: {{ucwords($event->status)}}</p>
+                                                <p class="card-text-custom card-text small mb-0 text-secondary">
                                                     {{$event->description}}
                                                 </p>
-                                                <div class="d-flex justify-content-end">
-                                                    <a href="{{route('event.view', $event->id)}}" class="btn btn-primary">View Event</a>
+                                                <div class="d-flex
+                                                @if(Auth::user()->user_access == 'admin')
+                                                 justify-content-between
+
+                                                @else
+                                                 justify-content-end
+
+                                                @endif
+                                                ">
+                                                    @if(Auth::user()->user_access == 'admin')
+                                                    <a href="{{route('eventlist.show', $event->id)}}" class="btn btn-outline-info" href="">Registration List</a>
+                                                    @endif
+                                                        <a href="{{route('event.view', $event->id)}}" class="btn btn-primary">View</a>
 
                                                 </div>
                                             </div>
@@ -64,7 +79,8 @@
                                 @endforeach
 
                             @else
-                                <h1 class="text-center fw-semibold">No events yet.</h1>
+{{--                                @if()--}}
+                                <h1 class="text-center fw-semibold">No @if($filter != '') {{$filter}} @endif events.</h1>
                             @endif
                         </div>
                     </div>
@@ -73,6 +89,8 @@
             </div>
         </div>
     </div>
+    @if(Auth::user()->user_access == 'admin')
+
     <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -150,6 +168,7 @@
             </div>
         </div>
     </div>
+    @endif
     <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -157,7 +176,7 @@
                     <h1 class="modal-title fs-5" id="filterModalLabel">Filters</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{route('events')}}" method="POST">
+                <form action="{{route('events')}}" method="GET">
                 @csrf
 
                 <div class="modal-body">
@@ -166,7 +185,8 @@
                     label="Status"
                     id="status"
                     margin="0"
-                    name="status">
+                    name="status"
+                    value="{{$filter}}">
                     </x-forms.select>
                 </div>
                 <div class="modal-footer">

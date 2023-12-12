@@ -1,24 +1,21 @@
 <?php
 
-namespace App\View\Components\Forms;
+namespace App\View\Components\Modal;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Image extends Component
+class Confirmation extends Component
 {
     /**
      * Create a new component instance.
      */
     public function __construct(
-        public string $acceptedTypes,
-        public string $id,
-        public string $src = '',
-        public bool $disabled = false,
+        public string $message
     )
     {
-
+        //
     }
 
     /**
@@ -26,6 +23,6 @@ class Image extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.forms.image');
+        return view('components.modal.confirmation');
     }
 }

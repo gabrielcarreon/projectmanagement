@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\AdminRequest;
 use App\View\Components\Buttons\Primary;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,11 @@ use Mockery\Matcher\Any;
 
 class UserController extends Controller
 {
-    public function index(Request $request){
+    public function residentCount(){
+        if(Auth::user()->user_access != 'admin') return 0;
+        return DB::table('users')->count('*');
+    }
+    public function index(AdminRequest $request){
         $users = DB::table('users')->where('user_access', '=', 'resident')->get('*');
         return view('dashboard.residents.residents', compact('users'));
     }
@@ -36,7 +41,8 @@ class UserController extends Controller
     }
 
     public function store(LoginRequest $request){
-        if($request->input('password') != $request->input('confirmPassword')) return redirect()->route('register/failed')->with('message', 'Password does not match.');
+        if($request->input('password') != $request->input('confirmPassword')) return redirect()->route('register')->with('message', 'Password does not match.');
+        if(DB::table('users')->where("email", $request->email)->count() > 0) return redirect()->route('register')->with('message', 'Email already registered.');
         $user = DB::table('users')->insert([
             'username' => $request->email,
             'email' => $request->email,
@@ -49,6 +55,7 @@ class UserController extends Controller
             'address' => $request->input('address'),
             'marital_status' => $request->input('maritalStatus'),
             'user_access' => 'resident',
+            'gender' => $request->sex,
         ]);
         return redirect()->route('registrationsuccess');
     }
@@ -79,6 +86,7 @@ class UserController extends Controller
                 'address' => $request->address,
                 'contact' => $request->contact,
                 'marital_status' => $request->maritalStatus,
+                'gender' => $request->sex,
         ]);
 
         return redirect()->route('profile')->with('message', 'Profile updated successfully');

@@ -32,6 +32,7 @@ class ProfileRequest extends FormRequest
             'address' => ['required', 'string', 'max:255'],
             'contact' => ['required', 'min:11', 'max:11'],
             'maritalStatus' => ['required', 'int', 'digits:1'],
+            'sex' => ['required', 'int', 'min:1', 'max:2']
 //            'image' => ['image', 'size:5048']
         ];
     }
