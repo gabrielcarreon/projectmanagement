@@ -2,7 +2,7 @@
     $currentRoute = isset(explode('/', url()->current())[4]) ? explode('/', url()->current())[4] : 'login';
     $src = Auth::user()->image == "" ? asset('assets/unset.webp') : asset('/uploads/'.Auth::user()->image);
 @endphp
-<nav class="navbar navbar-expand-lg bg-body-tertiary d-block d-md-none">
+<nav class="navbar bg-body-tertiary navbar-expand-lg  d-block d-md-none">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Brgy 660-A</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

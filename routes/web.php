@@ -2,9 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\Authenticate;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,30 +35,38 @@ Route::middleware(['auth'])->group(function (){
             return view('dashboard.dashboard');
         })->name('dashboard');
 
-        Route::get('/events', function(){
-            return view('dashboard.events.events');
-        })->name('events');
 
+
+//        user route group
+        Route::controller(UserController::class)->group(function(){
+            Route::post('/profile/save', 'update')->name('profile.update');
+            Route::get('/logout', 'logout')->name('logout');
+            Route::get('/residents', 'index')->name('residents');
+        });
+
+//        event route group
+        Route::prefix('events')->group(function(){
+            Route::get('/', function(){
+                return view('dashboard.events.events');
+            })->name('events');
+            Route::controller(EventController::class)->group(function (){
+                Route::get('/view/{id}', 'index')->name('event.view');
+                Route::post('/new', 'store')->name('event.store');
+            });
+        });
 
 
         Route::get('/calendar', function(){
             return view('dashboard.calendar.calendar');
         })->name('calendar');
+
         Route::prefix('profile')->group(function(){
             Route::get('/', function(){
                 return view('dashboard.profile.profile');
             })->name('profile');
         });
     });
-    Route::controller(UserController::class)->group(function(){
-        Route::get('/logout', 'logout')->name('logout');
-        Route::prefix('dashboard')->group(function(){
 
-            Route::post('/profile/save', 'update')->name('profile.update');
-
-            Route::get('/residents', 'index')->name('residents');
-        });
-    });
 });
 
 Route::get('login', function(){
