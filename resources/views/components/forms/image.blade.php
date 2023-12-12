@@ -6,7 +6,11 @@
         </div>
         <div class="avatar-preview  d-flex justify-content-center">
             <div id="imagePreview-{{$id}}"
+                 @if($src == '')
                  style="background-image: url('{{asset('assets/unset.webp')}}');">
+                 @else
+                 style="background-image: url('{{asset($src)}}');">
+                 @endif
             </div>
         </div>
     </div>

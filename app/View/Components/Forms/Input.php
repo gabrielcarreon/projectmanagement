@@ -20,6 +20,7 @@ class Input extends Component
         public int $max = 255,
         public bool $required = true,
         public string $value = "",
+        public bool $disabled = false
     )
     {
     }

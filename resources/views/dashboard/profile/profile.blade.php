@@ -7,17 +7,22 @@
         $days = [];
         $years = [];
         $maritalStatus = [
-            ['name' => 1, 'label' => 'Single'],
-            ['name' => 2, 'label' => 'Married'],
-            ['name' => 3, 'label' => 'Widowed'],
+            ['name' => '1', 'label' => 'Single'],
+            ['name' => '2', 'label' => 'Married'],
+            ['name' => '3', 'label' => 'Widowed'],
         ];
         for ($m=1; $m<=12; $m++) {
             $month = date('F', mktime(0,0,0,$m, 1));
-            $months[] = ['name' => $m,
-            'label' => $month];
+            $months[] = [
+                'name' => $m,
+                'label' => $month
+            ];
         }
         for($y = date('Y'); $y >= 1950; $y--){
-            $years[] = ['name' => $y, 'label' => $y];
+            $years[] = [
+                'name' => $y,
+                'label' => $y
+                ];
         }
         for($d=1; $d <= 30; $d++){
             $days[] = ['name' => $d, 'label' => $d];
@@ -70,7 +75,7 @@
                                                 margin="0"
                                                 :options="$months"
                                                 name="month"
-                                                value="{{Auth::user()->month}}"
+                                                value="{{explode('-', Auth::user()->birthdate)[1]}}"
                                                 ></x-forms.select>
                                         </div>
                                         <div class="col-4 px-1">
@@ -79,6 +84,7 @@
                                                 label="Day"
                                                 margin="0"
                                                 :options="$days"
+                                                value="{{explode('-', Auth::user()->birthdate)[2]}}"
                                                 name="day"
                                                 ></x-forms.select>
                                         </div>
@@ -87,6 +93,7 @@
                                                 id="year"
                                                 label="Year"
                                                 margin="0"
+                                                value="{{explode('-', Auth::user()->birthdate)[0]}}"
                                                 :options="$years"
                                                 name="year"></x-forms.select>
                                         </div>
@@ -120,6 +127,7 @@
                                         label="Marital Status"
                                         margin="0"
                                         :options="$maritalStatus"
+                                        value="{{Auth::user()->marital_status}}"
                                         name="maritalStatus"></x-forms.select>
                                 </div>
                                 @if($errors->any())

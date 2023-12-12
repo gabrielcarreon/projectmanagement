@@ -32,6 +32,7 @@ Route::prefix('register')->group(function(){
 Route::middleware(['auth'])->group(function (){
     Route::prefix('dashboard')->group(function(){
         Route::get('/', function(){
+            $events = [EventController::class, 'index'];
             return view('dashboard.dashboard');
         })->name('dashboard');
 
@@ -46,11 +47,12 @@ Route::middleware(['auth'])->group(function (){
 
 //        event route group
         Route::prefix('events')->group(function(){
-            Route::get('/', function(){
-                return view('dashboard.events.events');
-            })->name('events');
             Route::controller(EventController::class)->group(function (){
-                Route::get('/view/{id}', 'index')->name('event.view');
+                Route::get('/{status?}', 'index')->name('events');
+                Route::prefix('view')->group(function(){
+                    Route::get('/{id}', 'show')->name('event.view');
+                    Route::post('/{id}/update', 'update')->name('event.update');
+                });
                 Route::post('/new', 'store')->name('event.store');
             });
         });

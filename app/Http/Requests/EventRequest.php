@@ -27,6 +27,7 @@ class EventRequest extends FormRequest
             "location" => ['required', 'max:255', 'string'],
             "startDate" => ['required', 'string', 'max:255'],
             "endDate" => ['required', 'string', 'max:255'],
+            "eventStatus" => ["string", "max:1"]
 //            "eventImage" => ['required', 'image', 'size:5048']
         ];
     }

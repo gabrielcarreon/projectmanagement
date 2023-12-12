@@ -18,6 +18,7 @@ class Select extends Component
         public array $options,
         public string $name,
         public string $value = "",
+        public bool $disabled = false
     )
     {
     }

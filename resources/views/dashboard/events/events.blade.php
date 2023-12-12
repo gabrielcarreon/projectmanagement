@@ -1,34 +1,71 @@
 @extends('layouts.index')
 @section('content')
-
     <div class="d-flex">
         @include('components.navigation')
         <div class="container">
             @include('components.navbar')
-            <div class="row mt-4">
-                <h1 class="fw-bold">Events</h1>
+            @php
+            $status = [
+                ['name' => 'scheduled', 'label' => 'Scheduled'],
+                ['name' => 'on-going', 'label' => 'On-Going'],
+                ['name' => 'done', 'label' => 'Done'],
+            ];
+            @endphp
+            <div class="row">
+                @if(session('message'))
+                    <div id="alert">
+                        <div class="alert
+                         @if(session('status') == 'success')
+                         success
+                         @else
+                         error
+                         @endif
+                         rounded-0">{{session('message')}}</div>
+                        <script>
+                            jQuery(()=>{
+                                setTimeout(()=>{
+                                    $(`#alert`).remove();
+                                },1500)
+                            })
+                        </script>
+                    </div>
+                @endif
+
+                <h1 class="fw-bold mt-2">Events</h1>
                 <hr>
                 <div class="col-12 d-flex justify-content-end">
-                    <button style="width: fit-content" class="btn btn-primary" data-bs-toggle="modal"
+                    <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#filterModal">Filters</button>
+                    <button style="width: fit-content" class="btn btn-success" data-bs-toggle="modal"
                             data-bs-target="#addEventModal">Add Event
                     </button>
                 </div>
                 <div class="col-12">
                     <div class="container">
                         <div class="row mt-3">
-                            @if(session('message'))
-                                <div class="alert alert-danger">{{session('message')}}</div>
+                            @if(count($events) > 0)
+                                @foreach($events as $event)
+                                    <div class="mt-3 col-12 col-mg-6 col-lg-3 d-flex justify-content-center">
+                                        <div class="card stripe-box-shadow" style="width: 18rem;">
+                                            <div class="overflow-hidden" style="max-height: 200px;">
+                                                <img src="{{asset("uploads/$event->image")}}" class="card-img-top" alt="...">
+                                            </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{$event->event_name}}</h5>
+                                                <p class="card-text-custom card-text">
+                                                    {{$event->description}}
+                                                </p>
+                                                <div class="d-flex justify-content-end">
+                                                    <a href="{{route('event.view', $event->id)}}" class="btn btn-primary">View Event</a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                            @else
+                                <h1 class="text-center fw-semibold">No events yet.</h1>
                             @endif
-                            {{--                            <div class="col-4">--}}
-                            {{--                                <div class="card" style="width: 18rem;">--}}
-                            {{--                                    <img src="{{asset('assets/placeholder1.jpeg')}}" class="card-img-top" alt="...">--}}
-                            {{--                                    <div class="card-body">--}}
-                            {{--                                        <h5 class="card-title">Card title</h5>--}}
-                            {{--                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>--}}
-                            {{--                                        <a href="{{route('event.edit')}}" class="btn btn-primary">Edit Event</a>--}}
-                            {{--                                    </div>--}}
-                            {{--                                </div>--}}
-                            {{--                            </div>--}}
                         </div>
                     </div>
                 </div>
@@ -113,8 +150,49 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="filterModalLabel">Filters</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{route('events')}}" method="POST">
+                @csrf
+
+                <div class="modal-body">
+                    <x-forms.select
+                    :options="$status"
+                    label="Status"
+                    id="status"
+                    margin="0"
+                    name="status">
+                    </x-forms.select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Apply Filters</button>
+                </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
     <style>
+        .card-img-top{
+            background-position: center;
+            background-size: cover;
+            width: 100%;
+        }
+        .card-text-custom{
+            margin: 0;
+            height: 40px;
+            min-height: 40px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .event-card {
             border-width: 1px 1px 0px 1px;
 

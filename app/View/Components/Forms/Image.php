@@ -13,7 +13,8 @@ class Image extends Component
      */
     public function __construct(
         public string $acceptedTypes,
-        public string $id
+        public string $id,
+        public string $src = '',
     )
     {
 
