@@ -18,8 +18,8 @@ use App\Http\Controllers\RegistrationController;
 */
 
 Route::get('/', function () {
-    $user = Auth::id();
-    return $user ? view('dashboard.dashboard') : view('login.login');
+//    return $user ? view('dashboard.dashboard') : view('login.login');
+    return Auth::id() ? redirect()->route('dashboard') : view('login.login');
 })->name('login');
 
 Route::prefix('register')->group(function(){
